@@ -245,6 +245,7 @@ crs(corner_sdf)
 plot(corner_sdf, 
      main="Map of Plot Locations")
 
+
 ```
 
 
