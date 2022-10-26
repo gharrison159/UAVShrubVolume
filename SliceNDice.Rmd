@@ -1,0 +1,259 @@
+---
+title: "UAV_Shrub_SliceDice"
+author: "Georgia Harrison"
+date: "10/25/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+################################################
+# notes
+
+clipping lidar data with polygon https://github.com/r-lidar/lidR/issues/134
+
+################################################
+\newpage
+###
+
+## Workflow
+1. Import files: dense point cloud, shrub field data, and
+2. Extract 1 shrub based on corners
+3. Loop through all shrubs
+
+
+## library packages 
+```{r}
+library(tidyverse)
+library(lidR)
+library(rgdal)
+library(raster)
+```
+
+# 1. Import and describe files
+currently just importing from my desktop but we could be fancy and do through git directly
+
+Set working directory for REM 475 Group project onedrive
+
+### Dense point cloud
+exorted from agisoft using high quality and mild point filtering
+```{r}
+
+
+```
+
+### Field data
+Shrub ID, field size measurements, and corner numbers
+```{r}
+shrub_field <- read.csv("shrub_field_data.csv", header=TRUE)
+head(shrub_field)
+```
+
+## corners
+RTK GPS points for the 4 corners surrounding each shrub
+```{r}
+corner <- read.csv("Input data - Imagery and GCPs/Shrub_corners/shrub_kill_corner_markers.csv", header=TRUE,
+                   stringsAsFactors = FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## start off with something straightforward
+Get average Z value for each shrub - I think you can do this without creating a spatial data frame
+
+convert shrub field data from wide to long format - corner numbers
+```{r}
+head(shrub_field)
+shrub_long = shrub_field %>%
+  pivot_longer(cols = c('corner1', 'corner2', 'corner3', 'corner4'),
+               values_to = 'Name')
+head(shrub_long)
+```
+
+merge corner and long format field data 
+```{r}
+#we will be joining by the Name column ( # of corner), but make same data type 
+shrub_long$Name = as.character(shrub_long$Name)
+corner$Name = as.character(corner$Name)
+
+shrub_corner_merge = 
+  full_join(shrub_long, corner, by="Name")
+```
+
+get average Z value for each shrub 
+```{r}
+#Z is Ellipsoidal.height
+ground_elev = 
+  shrub_corner_merge %>% 
+  group_by(Shrub_ID) %>%
+  summarize(mean_z = mean(Ellipsoidal.height),
+            sd_z = sd(Ellipsoidal.height))
+ground_elev
+```
+
+add the mean z on the original field data 
+```{r}
+shrub_field = 
+  left_join(shrub_field, ground_elev, by="Shrub_ID")
+
+```
+
+
+
+
+
+
+## I think the next step is to create polygons between corners associated with each shrub 
+
+
+from the merged file of field data + corner points, cut out each shrub (using unique shrub ID)
+```{r}
+head(shrub_corner_merge)
+unique_shrubIDs = (shrub_corner_merge$Shrub_ID) #list of the all the shrubs by their ID 
+#there is a weird NA?? those are points which are not assigned to a specific shrub. Deal with this later 
+
+
+#try to subsample within larger files to one which only meet condition of each ID
+#make this work for one shrub first before we loop it
+one_shrub_corner = shrub_corner_merge%>% filter(Shrub_ID=="ARTRW_1")
+
+one_shrub_corner
+
+
+#try to make this a loop
+
+for (name in unique_shrubIDs){
+  one_shrub_corner = shrub_corner_merge%>% filter(Shrub_ID==name)
+}
+  
+
+```
+
+
+create shapefile for each of these to connect the dots 
+this is a boundary box for each shrub
+See below where I did this for all corners for the whole study, this is same idea, but with only 4 points per shrub 
+
+```{r}
+#convert corners for EACH shrub to a spatial data frame (shapefile)
+
+#start out with our one shrub example
+one_shrub_corner
+
+#identify column numbers for lat and long
+which(colnames(one_shrub_corner)=="Longitude") #25
+which(colnames(one_shrub_corner)=="Latitude") #26
+
+#describe the CRS
+utm11nCRS<- crs("+proj=utm +zone=11N +datum=WGS84 +units=m +no_defs 
+				 +ellps=WGS84 +towgs84=0,0,0" )
+
+#create spatial data frame
+one_shrub_sdf <- SpatialPointsDataFrame(one_shrub_corner[,25:27],
+                    one_shrub_corner,    #the R object to convert
+                    proj4string = utm11nCRS)   # assign a CRS 
+                                          
+# plot spatial object
+plot(one_shrub_sdf, 
+     main="Map of one shrub corners")
+
+```
+
+We may need to export these later on? I don't know, worry about that later 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# get the 4 corners association with each shrub
+## start by making corner into a shapefile
+tutorial: https://www.neonscience.org/resources/learning-hub/tutorials/dc-csv-shapefile-r
+I am not really sure if this is keeping the Z values
+```{r}
+head(corner)
+
+#get column names 
+names(corner)
+
+#identify the x, y and z columns 
+# x = corner$Longitude
+# y = corner$Latitude
+# z = corner$Ellipsoidal.height
+
+
+#describe the CRS
+utm11nCRS<- crs("+proj=utm +zone=11N +datum=WGS84 +units=m +no_defs 
+				 +ellps=WGS84 +towgs84=0,0,0" )
+
+
+#create spatial data frame
+corner_sdf <- SpatialPointsDataFrame(corner[,6:7],
+                    corner,    #the R object to convert
+                    proj4string = utm11nCRS)   # assign a CRS 
+                                          
+# double check the CRS
+crs(corner_sdf)
+
+
+
+# plot spatial object
+plot(corner_sdf, 
+     main="Map of Plot Locations")
+
+```
+
+
+
+
+
+
+
+
+
+
+
