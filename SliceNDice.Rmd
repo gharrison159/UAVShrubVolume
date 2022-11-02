@@ -250,11 +250,72 @@ plot(corner_sdf,
 
 
 
+# Segmenting .las point cloud to shapefile (.shp) (or SpatialPolygon (sp))
+### NOTE: the polygon that defines the 4 corners and outlines the shrub does not have to be in a shapefile (.shp) format, the 'clip_roi' function that is used to segment (clip) the point cloud to the polygon only takes in the vector as a SpatialPolygon (sp) so no matter what format the vector is in, the script will convert it to sp class 
 
+## Loading data and converting to required data class format:
 
+### Load necessary libraries 
+```{r}
+require(sp)
+require(sf)
+require(raster)
+require(rLiDAR)
+require(lidR)
+require(rgdal)
+require(terra)
 
+```
 
+### Import point cloud as LAS catalog. I think it is better to use a 'LAS catalog' format as it is easier to clip multifeature polygon (vector file containing a lot of polygons). 
 
+```{r}
+las <- readLAScatalog("~/[FilePath]/[PointCloud_FileName].las")
 
+```
 
+### Set CRS for LAScatalog (Point Cloud data)
+```{r}
+st_crs(las) <- 6340 #set to NAD83 Z11 (same as Shapefile or other Vector format used)
 
+```
+
+### Importing shapefile for clipping the point cloud as a 'simple feature' (sf) class. IGNORE if the vector file to be used for segmentation is alread in 'SpatialPolygon' (sp) class, SKIP to line [ ]
+``` {r}
+sf <- st_read(dsn = "~/[FilePath]/[Shapefile_FileName].shp", layer = "[Shapefile_FileName]")
+
+```
+
+### The imported 'simple feature (sf)' class (shapefile) has XYZ dimension, the 'clip_roi' function to be used to segment the point cloud can only take in SpatialPolygon data that is in XY dimensions.
+### Remove Z dimension of the sf class data (imported shapefile)
+```{r}
+sf_rmZ <- st_zm(sf) #'sf_zm' function removes the Z dimension to create an sf class with only XY dimensions 
+
+```
+### Convert the 2 dimension sf class to sp class (simple feature to spatial polygon)
+```{r}
+SpP <- as(st_geometry(sf_rmZ), "Spatial")
+
+```
+
+## Clipping vector data (sp class) to point cloud data (LAS catalog class)
+
+### Set desitnation file path and file naming rule for the individual point clouds outputs (for each polygon). 
+### NOTES: 
+### -  The file naming rule should be based on an ID feature that defines each polygon of the vector dataset ('SpP' dataset).The ID feature should be set while creating the shapefile or whatever the vector file we create for the 4 corners. 
+### - It is basically something that defines each polygon we create and thus defines each plant, can be as simple as a column called 'ObjectID' or 'ID' and numbering from 1 to however many polygons we have in total (I think we have around 100?) s
+
+```{r}
+opt_output_files(las) <- "~/[FilePath]/[Segmented_PointCloud_Name]_{ID}" #this sets up the directory where the R will save the segmented point clouds.
+
+#For example if '[Segmented_PointCloud_Name]_{ID}' is set as 'Shrub_{ID}' and {ID} is the name of the feature in the vector file used that uniquely defines each polygon (e.g. ID = 01), then the output point cloud will be named as 'shrub_01.las'
+
+```
+
+### Segmenting the point cloud (.las file) to the 4-corner vector files (sp format)
+
+```{r}
+clipped_las <- clip_roi(las,SpP) 
+
+#'clip_roi' is the new function that replaced 'lasclip'. If you try to use 'lasclip' function, it will return a message that the fucntion is now defunct and suggests you to use 'clip_roi' function. 
+```
