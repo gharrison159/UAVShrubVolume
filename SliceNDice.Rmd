@@ -35,7 +35,7 @@ currently just importing from my desktop but we could be fancy and do through gi
 Set working directory for REM 475 Group project onedrive
 
 ### Dense point cloud
-exorted from agisoft using high quality and mild point filtering
+exported from agisoft using high quality and mild point filtering
 ```{r}
 
 ```
@@ -43,7 +43,7 @@ exorted from agisoft using high quality and mild point filtering
 ### Field data
 Shrub ID, field size measurements, and corner numbers
 ```{r}
-shrub_field <- read.csv("C:/Users/harr4718/OneDrive - University of Idaho/Courses/REM 475 Drones/REM 475 Group Project/shrub_field_data.csv", 
+shrub_field <- read.csv("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\shrub_field_data.csv", 
                         header=TRUE,  stringsAsFactors = FALSE)
 head(shrub_field)
 ```
@@ -55,7 +55,7 @@ RTK GPS points for the 4 corners surrounding each shrub
 # corner <- read.csv("/Input data - Imagery and GCPs/Shrub_corners/shrub_kill_corner_markers_corrected.csv", header=TRUE,
 #                    stringsAsFactors = FALSE)
 
-corner <- read.csv("C:/Users/harr4718/OneDrive - University of Idaho/Courses/REM 475 Drones/REM 475 Group Project/Input data - Imagery and GCPs/Shrub_corners/shrub_kill_corner_markers_corrected.csv", header=TRUE, 
+corner <- read.csv("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\shrub_kill_corner_markers_corrected.csv", header=TRUE, 
                                                 stringsAsFactors = FALSE)
 ```
 
@@ -184,30 +184,46 @@ plot(one_shrub_sdf,
 Should look into if there is a better way to store the outputs, like a custom environment
 ```{r}
 
-tail(shrub_corner_merge_noNA)
+trial = shrub_corner_merge_noNA%>% filter(!Shrub_ID=="ARTRW_1")
+
+
+
+
+
+
+
+trial = shrub_corner_merge_noNA%>% filter(!Shrub_ID=="ARTRW_1")
+
+
+
 
 #get list of all uniuque shrub IDs
-unique_shrubIDs = unique(shrub_corner_merge_noNA$Shrub_ID)
+unique_shrubIDs = unique(trial$Shrub_ID)
 #create CRS
-utm11nCRS<- crs("+proj=utm +zone=11N +datum=WGS84 +units=m +no_defs 
-				 +ellps=WGS84 +towgs84=0,0,0" )
+utm11nCRS<- crs("+proj=utm +zone=11N +datum=WGS84 +units=m +no_defs
+                 +ellps=WGS84 +towgs84=0,0,0" )
+
+
 
 #try to make this a loop
 
+
+
 for (name in unique_shrubIDs){
   print(name)
-  temp_dirty = shrub_corner_merge_noNA[shrub_corner_merge_noNA$Shrub_ID == name,]
+  temp_dirty = trial[trial$Shrub_ID == name,]
   temp_clean = temp_dirty[!is.na(temp_dirty$species_name),]
 
-  #create spatial data frame
+
+
+ #create spatial data frame
   temp_dsf <- SpatialPointsDataFrame(temp_clean[,25:27],
                       temp_clean,    #the R object to convert
-                      proj4string = utm11nCRS)   # assign a CRS 
-  assign(x=paste0(name, "_sdf"), 
-         value = temp_dsf, 
-         envir = shrub_sdfs)
+                      proj4string = utm11nCRS)   # assign a CRS
+  assign(x=paste0(name, "_sdf"),
+         value = temp_dsf,
+         envir = .GlobalEnv)
 }
-
 ```
 So this is working for now, but it spits out all the SDFs in the global environment within R. Not ideal but maybe okay for now?
 
@@ -219,6 +235,7 @@ print(shrub_sdfs)
 
 list2 <- mget(ls(), .GlobalEnv)
 list2
+
 ```
 
 
@@ -251,7 +268,7 @@ library(stars)
 ```{r}
 #las <- readLAScatalog("~/[FilePath]/[PointCloud_FileName].las")
 
-las <- readLAScatalog("C:/Users/harr4718/OneDrive - University of Idaho/Courses/REM 475 Drones/REM 475 Group Project/Intermediate outputs - Metashape, Arc, R etc/PointCloud.las")
+las <- readLAScatalog("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\PointCloud_compressed\\PointCloud_Compressed.las")
 
 
 las <- readLAS("C:/Users/harr4718/OneDrive - University of Idaho/Courses/REM 475 Drones/REM 475 Group Project/Intermediate outputs - Metashape, Arc, R etc/PointCloud.las")
@@ -272,7 +289,8 @@ st_crs(las) <- 6340 #set to NAD83 Z11 (same as Shapefile or other Vector format 
 ### Importing shapefile for clipping the point cloud as a 'simple feature' (sf) class. IGNORE if the vector file to be used for segmentation is alread in 'SpatialPolygon' (sp) class, SKIP to line [ ]
 ``` {r}
 sf <- st_read(dsn = "~/[FilePath]/[Shapefile_FileName].shp", layer = "[Shapefile_FileName]")
-
+poly <- Polygon(list2$ARAR_1_sdf)
+sf <- st_as_sf(list2$ARAR_1_sdf)
 ```
 
 ### The imported 'simple feature (sf)' class (shapefile) has XYZ dimension, the 'clip_roi' function to be used to segment the point cloud can only take in SpatialPolygon data that is in XY dimensions.
@@ -284,6 +302,7 @@ sf_rmZ <- st_zm(sf) #'sf_zm' function removes the Z dimension to create an sf cl
 ### Convert the 2 dimension sf class to sp class (simple feature to spatial polygon)
 ```{r}
 SpP <- as(st_geometry(sf_rmZ), "Spatial")
+SpP_poly <- Polygon(SpP)
 
 ```
 

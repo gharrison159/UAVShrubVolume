@@ -1,0 +1,108 @@
+Shrub_ID,species_short_code,species_full_code,species_name,species_common,rep,ht_cm,d1_cm,d2_cm,wet_weight_plut_tare,tare_type ,big_sample_weight_kg,big_sample_weight_g,subsample_tare_g,subsample_wet_g,subsample_dry_g,corner_start,corner_stop,corner1,corner2,corner3,corner4
+ARTRW_1,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,1,59,137,88,3.26,ASTERISK,2.82,2820,57.95,244.26,169.01,2,5,2,3,4,5
+ARTRV_1,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,1,53,88,75,0.9,NONE,0.9,900,57.67,400.77,223.04,6,9,6,7,8,9
+ARAR_2,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,2,49.5,112,65,2.3,ASTERISK,1.86,1860,59.49,477.82,307.26,10,13,10,11,12,13
+ARTRT_2,ARTRT,ARTRT,Artemisia tridentata s. tridentata,basin big sagebrush,2,99,109,70,6.25,ASTERISK,5.81,5810,57.63,335.61,206.25,14,17,14,15,16,17
+ARTRW_2,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,2,32,43,20,0.4,NONE,0.4,400,60.25,320.88,218.14,18,21,18,19,20,21
+ARTRT_3,ARTRT,ARTRT,Artemisia tridentata s. tridentata,basin big sagebrush,3,154,217,122,12.14,ASTERISK,11.7,11700,58.02,646.66,490.75,22,25,22,23,24,25
+ARAR_3,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,3,43,98,83,2.36,ASTERISK,1.92,1920,57.34,361.56,245.66,26,29,26,27,28,29
+ARAR_4,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,4,44,74,53,1.36,ASTERISK,0.92,920,57.79,351.29,270.76,30,33,30,31,32,33
+ARAR_1,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,1,50,58,21,0.8,NONE,0.8,800,57.57,427.35,312.54,34,37,34,35,36,37
+ARAR_7,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,7,52,76,55,1.52,ASTERISK,1.08,1080,57.37,268.66,190.82,38,41,38,39,40,41
+ARAR_6,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,6,33,54,33,0.74,ASTERISK,0.3,300,57.4,212.15,145.88,42,45,42,43,44,45
+ARAR_8,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,8,60,135,128,5.4,ASTERISK,4.96,4960,57.3,430.34,295.11,46,49,46,47,48,49
+CHVI_1,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,1,41,55,30,0.32,NONE,0.32,320,60.53,240.8,127.16,50,53,50,51,52,53
+ARAR_5,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,5,46,112,89,2.48,ASTERISK,2.04,2040,57.59,310.24,217.15,54,57,54,55,56,57
+CHVI_2,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,2,31,48,28,0.18,NONE,0.18,180,60.49,236.38,166.85,58,61,58,59,60,61
+CHVI_5,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,5,43,62,34,0.68,ASTERISK,0.24,240,60.29,206.68,117,62,65,62,63,64,65
+CHVI_3,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,3,37,67,55,1.16,BOTH WB,0.8,800,7.46,195.62,117.43,66,69,66,67,68,69
+CHVI_4,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,4,21,30,15,0.24,WB,0.06,60,7.44,90.82,57.58,70,73,70,71,72,73
+ARTRV_3,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,3,60,79,60,1.74,ASTERISK,1.3,1300,59.94,564.47,294.44,74,77,74,75,76,77
+ARTRV_4,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,4,81,163,159,6.2,ASTERISK,5.76,5760,59.66,228.95,161.87,78,81,78,79,80,81
+ARTRV_5,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,5,102,138,124,6.3,ASTERISK,5.86,5860,57.84,589.34,482.24,82,85,82,83,84,85
+ARTRV_6,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,6,61,92,79,1.8,ASTERISK,1.36,1360,57.36,373.89,260.63,87,90,87,88,89,90
+ARTRV_7,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,7,78,165,123,4.42,ASTERISK,3.98,3980,58.03,458.17,341.79,91,94,91,92,93,94
+PUTR_7,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,7,75,97,80,0.86,NONE,0.86,860,59.6,306.59,202.95,95,98,95,96,97,98
+PUTR_8,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,8,104,168,170,3.46,ASTERISK,3.02,3020,60.32,610.94,394.07,99,102,99,100,101,102
+ARTRV_8,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,8,78,116,71,2.58,ASTERISK,2.14,2140,60.95,537.15,358.28,103,106,103,104,105,106
+ARTRV_9,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,9,95,131,115,3.26,ASTERISK,2.82,2820,59.92,715.92,481.22,107,110,107,108,109,110
+ARTRV_10,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,10,58,81,75,7.6,ASTERISK,7.16,7160,60.38,398.62,336.28,111,114,111,112,113,114
+ARTRV_11,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,11,69,45,43,0.92,ASTERISK,0.48,480,57.62,327.92,201.91,115,118,115,116,117,118
+TECA_7,TECA,TECA2,Tetradymia canescens,spineless horsebrush,7,38,73,68,0.66,STAR,0.46,460,57.58,195.6,122.63,119,122,119,120,121,122
+ARTRV_12,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,12,82,119,122,2.86,ASTERISK,2.42,2420,60.09,442.32,307.15,123,126,123,124,125,126
+TECA_8,TECA,TECA2,Tetradymia canescens,spineless horsebrush,8,29,58,30,0.32,STAR,0.12,120,57.48,152.41,112.24,126,130,126,127,128,129
+ARTRV_13,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,13,52,55,56,0.9,ASTERISK,0.46,460,60.24,172.12,110.98,131,134,131,132,133,134
+PUTR_4,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,4,84,123,98,1.64,NONE,1.64,1640,60.09,767.56,504.11,135,138,135,136,137,138
+TECA_9,TECA,TECA2,Tetradymia canescens,spineless horsebrush,9,37,71,62,1.22,ASTERISK,0.78,780,59.63,354.25,222.5,139,142,139,140,141,142
+PUTR_3,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,3,93,203,205,8.8,ASTERISK,8.36,8360,57.5,422.82,278.41,143,146,143,144,145,146
+ARTRV_14,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,14,55,84,71,1.3,NONE,1.3,1300,59.93,371.02,219.38,147,150,147,148,149,150
+PUTR_2,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,2,84,132,125,4.42,ASTERISK,3.98,3980,57.88,712.02,457.97,151,154,151,152,153,154
+ARTRV_15,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,15,64,91,77,1.26,NONE,1.26,1260,60.3,423.18,229.18,155,158,155,156,157,158
+PUTR_1,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,1,70,81,55,1.24,ASTERISK,0.8,800,59.86,231.04,153.4,159,162,159,160,161,162
+PUTR_5,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,5,153,190,173,10.26,ALL ASTERISK,8.94,8940,57.75,433.44,323.87,163,164,163,164,165,166
+PUTR_6,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,6,77,87,59,0.92,NONE,0.92,920,60.16,475.87,308.28,167,170,167,168,169,170
+CHVI_12,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,12,49,61,42,0.5,ASTERISK,0.06,60,57.99,348.45,227.97,171,174,171,172,173,174
+CHVI_11,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,11,19,43,35,0.34,STAR,0.14,140,57.84,141.96,102.23,175,178,175,176,177,178
+ARAR_10,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,10,49,136,152,5.34,ASTERISK,4.9,4900,59.82,318.32,202.29,179,82,179,180,181,182
+ARAR_9,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,9,31,51,50,0.7,ASTERISK,0.26,260,59.41,459.85,259.71,183,186,183,184,185,186
+ARAR_11,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,11,24,52,30,0.4,STAR,0.2,200,58.33,179.38,104.83,187,190,187,188,189,190
+ARAR_13,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,13,43,61,48,0.76,STAR,0.56,560,59.96,561.22,289.03,191,194,191,192,193,194
+CHVI_6,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,6,20,24,25,0.24,WB,0.06,60,7.42,63.63,35.27,195,198,195,196,197,198
+TECA_1,TECA,TECA2,Tetradymia canescens,spineless horsebrush,1,33,61,39,0.7,STAR,0.5,500,58.11,523.27,249.22,199,202,199,200,201,202
+TECA_2,TECA,TECA2,Tetradymia canescens,spineless horsebrush,2,35,82,63,1.06,ASTERISK,0.62,620,57.54,426.26,233.83,204,207,204,205,206,207
+TECA_3,TECA,TECA2,Tetradymia canescens,spineless horsebrush,3,40,31,22,0.1,NONE,0.1,100,57.85,152.23,101.95,208,211,208,209,210,211
+ARTRV_2,ARTRV,ARTRV,Artemisia tridentata s. vaseyana,mountain big sagebrush,2,64,95,92,1.86,ASTERISK,1.42,1420,57.56,705.48,400.81,212,215,212,213,214,215
+ARAR_14,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,14,34,75,49,1.18,ASTERISK,0.74,740,58.2,198.58,117.1,216,219,216,217,218,219
+ARAR_15,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,15,42,67,43,1.06,ASTERISK,0.62,620,57.73,204.16,142.54,220,223,220,221,222,223
+CHVI_7,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,7,44,69,41,0.24,ASTERISK,-0.2,-200,57.63,516.61,270,224,227,224,225,226,227
+PUTR_9,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,9,175,328,242,28.46,ALL ASTERISK,26.7,26700,57.53,609.73,378.17,228,231,228,229,230,231
+PUTR_11,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,11,92,118,121,2.04,ASTERISK,1.6,1600,57.76,357.7,332.52,232,235,232,233,234,235
+PUTR_12,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,12,73,138,83,0.76,NONE,0.76,760,57.87,397.8,232.89,236,239,236,237,238,239
+PUTR_10,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,10,106,144,115,4.22,ASTERISK,3.78,3780,57.46,273.67,194.21,240,243,240,241,242,243
+PUTR_15,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,15,31,75,54,0.36,NONE,0.36,360,57.61,397.26,217.93,244,247,244,245,246,247
+PUTR_13,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,13,102,142,124,2.68,NONE,2.68,2680,57.62,645.6,400.85,248,251,248,249,250,251
+PUTR_14,PUTR,PUTR2,Purshia tridentata,Antelope bitterbrush,14,178,334,255,46.88,ALL ASTERISK,44.24,44240,57.29,632.85,465.02,252,255,252,253,254,255
+ARTRW_12,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,12,41,59,46,0.18,STAR,-0.02,-20,61.09,429.41,250.95,256,259,256,257,258,259
+TECA_14,TECA,TECA2,Tetradymia canescens,spineless horsebrush,14,46,97,70,1.58,ASTERISK,1.14,1140,61.06,299.03,174.76,260,263,260,261,262,263
+ERNA_4,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,4,34,48,37,0.32,STAR,0.12,120,61.26,204.6,112.88,264,267,264,265,266,267
+TECA_15,TECA,TECA2,Tetradymia canescens,spineless horsebrush,15,41,77,43,0.06,ASTERISK,-0.38,-380,57.39,371.59,171.19,268,271,268,269,270,271
+TECA_5,TECA,TECA2,Tetradymia canescens,spineless horsebrush,5,35,82,62,0.28,ASTERISK,-0.16,-160,57.54,374.6,226.86,272,275,272,273,274,275
+TECA_4,TECA,TECA2,Tetradymia canescens,spineless horsebrush,4,38,43,34,0.26,STAR,0.06,60,57.75,195.12,132.44,276,279,276,277,278,279
+ERNA_1,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,1,49,78,48,0.28,ASTERISK,-0.16,-160,57.49,452.97,289.82,280,283,280,281,282,283
+ERNA_2,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,2,79,151,84,2.28,ASTERISK,1.84,1840,57.57,578.52,380.95,284,287,284,285,286,287
+ERNA_3,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,3,68,98,73,MISSING,,,0,,,,288,291,288,289,290,291
+CHVI_9,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,9,35,35,20,0.1,NONE,0.1,100,61.25,121.13,81.47,292,295,292,293,294,295
+CHVI_8,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,8,38,61,55,0.6,STAR,0.4,400,57.45,206.89,134.58,296,299,296,297,298,299
+ARTRW_3,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,3,64,62,38,0.94,NONE,0.94,940,57.68,482.9,267.3,301,304,301,302,303,304
+ARTRW_4,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,4,62,77,65,1.22,NONE,1.22,1220,60.88,474.98,305.28,305,308,305,306,307,308
+ARTRW_5,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,5,50,71,37,0.72,NONE,0.72,720,57.59,359.59,200.42,309,312,309,310,311,312
+ARTRW_6,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,6,52,46,46,1.04,ASTERISK,0.6,600,57.57,198.73,120.4,313,316,313,314,315,316
+ARTRW_8,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,8,54,65,41,0.42,NONE,0.42,420,57.58,387.54,221.72,319,321,319,320,321,322
+ARTRW_7,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,7,41,57,27,0.42,NONE,0.42,420,57.58,356.27,189.35,322,325,322,323,324,325
+ARTRW_9,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,9,47,71,72,0.16,ASTERISK,-0.28,-280,57.6,355.65,232.53,326,329,326,327,328,329
+TECA_11,TECA,TECA2,Tetradymia canescens,spineless horsebrush,11,46,54,53,0.34,ASTERISK,-0.1,-100,57.63,382.76,216.42,330,333,330,331,332,333
+ARTRW_10,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,10,42,62,56,0.18,ASTERISK,-0.26,-260,57.53,427.51,231.73,334,337,334,335,336,337
+ARTRW_11,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,11,51,79,19,0.12,ASTERISK,-0.32,-320,57.48,383.62,229,338,341,338,339,340,341
+ARTRW_13,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,13,87,156,121,9.42,ASTERISK,8.98,8980,57.4,530.56,329.7,342,345,342,343,344,345
+ARTRW_14,ARTRW,ARTRW,Artemisia tridentata s. wyomingensis,Wyoming big sagebrush,14,67,79,30,0.94,NONE,0.94,940,57.69,385.73,218.98,346,349,346,347,348,349
+ERNA_5,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,5,52,79,64,1.18,ASTERISK,0.74,740,57.61,361.93,186.67,350,353,350,351,352,353
+ERNA_7,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,7,28,29,17,0.01,NONE,0.01,10,57.76,108.23,78.97,354,357,354,355,356,357
+ERNA_8,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,8,63,117,64,1.16,ASTERISK,0.72,720,57.39,321.24,236.5,359,362,359,360,361,362
+ERNA_9,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,9,46,70,47,0.14,ASTERISK,-0.3,-300,57.52,305.33,176.09,363,367,363,364,365,366
+ERNA_10,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,10,30,56,34,0.68,STAR,0.48,480,57.76,256.72,169.58,368,371,368,369,370,371
+ERNA_11,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,11,82,173,129,4.16,ASTERISK,3.72,3720,57.53,497.93,301.9,372,375,372,373,374,375
+ERNA_12,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,12,20,23,21,0.01,NONE,0.01,10,57.46,81.14,63.59,376,379,376,377,378,379
+TECA_10,TECA,TECA2,Tetradymia canescens,spineless horsebrush,10,28,57,39,0.5,ASTERISK,0.06,60,57.46,214.09,134.69,380,383,380,381,382,383
+ERNA_13,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,13,47,53,44,0.12,ASTERISK,-0.32,-320,57.7,186.86,131.67,384,388,384,385,386,387
+ERNA_14,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,14,55,38,38,0.12,ASTERISK,-0.32,-320,57.5,421.32,273.31,389,392,389,390,391,392
+ERNA_15,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,15,52,104,54,1.32,ASTERISK,0.88,880,57.61,431.21,296.08,393,396,393,394,395,396
+ERNA_6,ERNA,ERNA10,Ericameria nauseosa,rubber rabbitbrush,6,46,72,250,0.56,STAR,0.36,360,57.46,172.36,110.04,397,400,397,398,399,400
+TECA_12,TECA,TECA2,Tetradymia canescens,spineless horsebrush,12,31,39,32,0.18,ASTERISK,-0.26,-260,61.15,250.03,153.39,401,404,401,402,403,404
+TECA_13,TECA,TECA2,Tetradymia canescens,spineless horsebrush,13,37,59,51,0.54,STAR,0.34,340,61.34,305.69,183.33,405,408,405,406,407,408
+TECA_6,TECA,TECA2,Tetradymia canescens,spineless horsebrush,6,38,48,52,0.46,STAR,0.26,260,57.74,169.18,100.71,410,413,410,411,412,413
+ARAR_12,ARAR,ARAR8,Artemisia arbuscula,low sagebrush,12,40,49,36,0.76,STAR,0.56,560,60.45,418.88,224.16,414,417,414,415,415,417
+CHVI_10,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,10,32,45,45,0.5,STAR,0.3,300,59.75,353.44,195.98,418,421,418,419,420,421
+CHVI_13,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,13,42,57,35,0.78,ASTERISK,0.34,340,57.34,422.81,213.23,422,425,422,423,424,425
+CHVI_14,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,14,43,41,35,0.44,STAR,0.24,240,60.09,277.46,162.65,426,429,426,427,428,429
+CHVI_15,CHVI,CHVI8,Chrysothamnus viscidiflorus,yellow rabbitbrush,15,44,65,41,0.48,STAR,0.28,280,59.92,346.4,178.48,430,434,430,431,432,433
+ARTRT_1,ARTRT,ARTRT,Artemisia tridentata s. tridentata,basin big sagebrush,1,48,77,63,0.86,NONE,0.86,860,57.86,283.51,157.53,,,missing?,missing?,missing?,missing?
