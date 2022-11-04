@@ -219,7 +219,7 @@ shrub_poly <- sfheaders::sf_polygon(
   obj = shrubs, 
   x = "Longitude", y = "Latitude",
   polygon_id = "Shrub_ID")
-st_crs(shrub_polygon) <- 6340 #set to NAD83 Z11 (same as Shapefile or other Vector format used)
+st_crs(shrub_poly) <- 6340 #set to NAD83 Z11 (same as Shapefile or other Vector format used)
 
 #see how it looks
 shrub_poly
@@ -230,15 +230,27 @@ shrub_poly
 shrubs_spdf<-as(shrub_poly, "Spatial")
 #actually worked
 #what the hell
+
+
+
+
+
+st_crs(shrub_poly) <- 4152
+shrubs_spdf_4152<-as(shrub_poly, "Spatial")
+
 ```
 
 Export the shapefile! 
 
 ```{r}
-writeOGR(obj=shrubs_spdf, dsn="shapefile_exports", layer="shrubs", driver="ESRI Shapefile") # this is in geographical projection
+library(rgdal)
+writeOGR(obj=shrubs_spdf_4152, dsn="shapefile_exports", layer="shrubs_4152", driver="ESRI Shapefile") # this is in geographical projection
 #dsn is the folder within working directory where this file will live
 #layer is the name you want the export file to be 
 ?writeOGR
+
+st_crs(shrubs_spdf_3741)
+
 ```
 
 
@@ -267,7 +279,16 @@ library(sf)
 library(stars)
 
 remove.packages("sf")
+remove.packages("cli")
 install.packages("sf", type=source)
+?install_cran
+
+devtools::install_cran("sf", type = source)
+
+install_version("sf", version=1.0-8, dependencies = NA)
+
+
+
 ```
 
 ### Import point cloud as LAS catalog. I think it is better to use a 'LAS catalog' format as it is easier to clip multifeature polygon (vector file containing a lot of polygons). 
