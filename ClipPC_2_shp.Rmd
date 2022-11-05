@@ -1,0 +1,79 @@
+---
+title: "ClipPC_2_shp"
+author: "Abhinav Shrestha"
+date: "2022-11-05"
+output: html_document
+---
+
+###################################################
+# notes
+
+Script clips point cloud data (.las) to shapefiles  
+
+###################################################
+
+##Loading required packages
+```{r}
+require(sp)
+require(sf)
+require(raster)
+require(rLiDAR)
+require(lidR)
+require(rgdal)
+require(terra)
+
+```
+
+##Importing point cloud as LAS catalog 
+```{r}
+
+las <- readLAScatalog("~/[FilePath]/[FileName].las")
+
+las$CRS #to check the CRS of the imported las. Returns 6340 -> EPSG code for NAD83(2011) / UTM zone 11N 
+
+```
+
+Notes regarding use of LAS Catalog format: 
+- Efficient memory management, especially for large .las files
+- Enables clipping of multifeature polygons (e.g. a shapefile containing multiple polygon features)
+
+##Importing shapefile as simple feature (sf) class
+```{r}
+sf <- st_read(dsn = "C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\shrubs_arc.shp", layer = "shrubs_arc") 
+
+sf #returns Dimensions as 'XY' and Projected CRS as NAD83(2011) / UTM zone 11N (same as point cloud on line 12), if sf has Dimensions XYZ, refer to NOT RUN section starting from line 68.
+
+```
+
+Notes regarding importing the shapfile for the case of REM 475 project: 
+  - I imported the shapefile I created in ArcGIS where:
+    - I imported the final output shapefile from Georgia's script (in EPSG 4152, geographic) into ArcGIS
+    - Used the 'export' feature to export the EPSG 4152 geographic shapefile to EPSG 6340 projected shapefile
+
+##Setting destination of the output clipped point cloud files (.las)
+```{r}
+opt_output_files(las) <- "~/[FilePath]/[FileName]_{ID}"
+
+```
+
+For e.g.: If '[FileName]_{ID}' is set as 'shrub_{Shrub_ID}', then the output file will be named as 'shrub_ARAR_1.las' where 'ARAR_1' is the unique ID ('{Shrub_ID}') of polygon feature of the shapefile, and hence is the ID of the individual shrub IRL.
+
+##Clipping shapefile to point cloud 
+```{r}
+clipped_las <- clip_roi(las,sf)
+
+```
+There is no need to export the 'clipped_las' variable, the 'opt_output_files(las)' function automatically exports the files in the folder defined in line 55
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## NOT RUN: this section of the script can be used if the imported shapefile has XYZ dimension. This portion of the script removes the Z dimension and converts the sf to Spatial polygons class (SpP)
+IF NEED TO RUN:
+
+```{r}
+
+#sf class has XYZ dimension, need to convert to 2 dimension (XY) 'SpatialPolygon' class:
+
+sf_rmZ <- st_zm(sf) #removes Z dimension
+SpP <- as(st_geometry(sf), "Spatial") #converts sf to sp class
+
+```

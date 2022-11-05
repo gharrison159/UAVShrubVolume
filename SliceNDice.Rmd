@@ -238,94 +238,71 @@ list2
 
 ```
 
+#------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Clipping point cloud to shapefile
 
-
-
-
-
-# Segmenting .las point cloud to shapefile (.shp) (or SpatialPolygon (sp))
-### NOTE: the polygon that defines the 4 corners and outlines the shrub does not have to be in a shapefile (.shp) format, the 'clip_roi' function that is used to segment (clip) the point cloud to the polygon only takes in the vector as a SpatialPolygon (sp) so no matter what format the vector is in, the script will convert it to sp class 
-
-## Loading data and converting to required data class format:
-
-### Load necessary libraries 
+##Loading required packages
 ```{r}
 require(sp)
-#require(sf)
+require(sf)
 require(raster)
 require(rLiDAR)
 require(lidR)
 require(rgdal)
 require(terra)
-library(sf)
-library(stars)
-
 
 ```
 
-### Import point cloud as LAS catalog. I think it is better to use a 'LAS catalog' format as it is easier to clip multifeature polygon (vector file containing a lot of polygons). 
+##Importing point cloud as LAS catalog 
+```{r}
+
+las <- readLAScatalog("~/[FilePath]/[FileName].las")
+
+las$CRS #to check the CRS of the imported las. Returns 6340 -> EPSG code for NAD83(2011) / UTM zone 11N 
+
+```
+
+Notes regarding use of LAS Catalog format: 
+- Efficient memory management, especially for large .las files
+- Enables clipping of multifeature polygons (e.g. a shapefile containing multiple polygon features)
+
+##Importing shapefile as simple feature (sf) class
+```{r}
+sf <- st_read(dsn = "C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\shrubs_arc.shp", layer = "shrubs_arc") 
+
+sf #returns Dimensions as 'XY' and Projected CRS as NAD83(2011) / UTM zone 11N (same as point cloud on line 252), if sf has Dimensions XYZ, refer to NOT RUN section starting from line 288.
+
+```
+
+Notes regarding importing the shapfile for the case of REM 475 project: 
+  - I imported the shapefile I created in ArcGIS where:
+    - I imported the final output shapefile from Georgia's script (in EPSG 4152, geographic) into ArcGIS
+    - Used the 'export' feature to export the EPSG 4152 geographic shapefile to EPSG 6340 projected shapefile
+
+##Setting destination of the output clipped point cloud files (.las)
+```{r}
+opt_output_files(las) <- "~/[FilePath]/[FileName]_{ID}"
+
+```
+
+For e.g.: If '[FileName]_{ID}' is set as 'shrub_{Shrub_ID}', then the output file will be named as 'shrub_ARAR_1.las' where 'ARAR_1' is the unique ID ('{Shrub_ID}') of polygon feature of the shapefile, and hence is the ID of the individual shrub IRL.
+
+##Clipping shapefile to point cloud 
+```{r}
+clipped_las <- clip_roi(las,sf)
+
+```
+There is no need to export the 'clipped_las' variable, the 'opt_output_files(las)' function automatically exports the files in the folder defined in line 275
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------
+## NOT RUN: this section of the script can be used if the imported shapefile has XYZ dimension. This portion of the script removes the Z dimension and converts the sf to Spatial polygons class (SpP)
+IF NEED TO RUN:
 
 ```{r}
-#las <- readLAScatalog("~/[FilePath]/[PointCloud_FileName].las")
 
-las <- readLAScatalog("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\PointCloud_compressed\\PointCloud_Compressed.las")
+#sf class has XYZ dimension, need to convert to 2 dimension (XY) 'SpatialPolygon' class:
 
+sf_rmZ <- st_zm(sf) #removes Z dimension
+SpP <- as(st_geometry(sf), "Spatial") #converts sf to sp class
 
-las <- readLAS("C:/Users/harr4718/OneDrive - University of Idaho/Courses/REM 475 Drones/REM 475 Group Project/Intermediate outputs - Metashape, Arc, R etc/PointCloud.las")
-
-
-```
-
-### Set CRS for LAScatalog (Point Cloud data)
-```{r}
-st_crs(las) <- 6340 #set to NAD83 Z11 (same as Shapefile or other Vector format used)
-
-```
-
-
-
-
-
-### Importing shapefile for clipping the point cloud as a 'simple feature' (sf) class. IGNORE if the vector file to be used for segmentation is alread in 'SpatialPolygon' (sp) class, SKIP to line [ ]
-``` {r}
-sf <- st_read(dsn = "~/[FilePath]/[Shapefile_FileName].shp", layer = "[Shapefile_FileName]")
-poly <- Polygon(list2$ARAR_1_sdf)
-sf <- st_as_sf(list2$ARAR_1_sdf)
-```
-
-### The imported 'simple feature (sf)' class (shapefile) has XYZ dimension, the 'clip_roi' function to be used to segment the point cloud can only take in SpatialPolygon data that is in XY dimensions.
-### Remove Z dimension of the sf class data (imported shapefile)
-```{r}
-sf_rmZ <- st_zm(sf) #'sf_zm' function removes the Z dimension to create an sf class with only XY dimensions 
-
-```
-### Convert the 2 dimension sf class to sp class (simple feature to spatial polygon)
-```{r}
-SpP <- as(st_geometry(sf_rmZ), "Spatial")
-SpP_poly <- Polygon(SpP)
-
-```
-
-
-
-## Clipping vector data (sp class) to point cloud data (LAS catalog class)
-
-### Set desitnation file path and file naming rule for the individual point clouds outputs (for each polygon). 
-### NOTES: 
-### -  The file naming rule should be based on an ID feature that defines each polygon of the vector dataset ('SpP' dataset).The ID feature should be set while creating the shapefile or whatever the vector file we create for the 4 corners. 
-### - It is basically something that defines each polygon we create and thus defines each plant, can be as simple as a column called 'ObjectID' or 'ID' and numbering from 1 to however many polygons we have in total (I think we have around 100?) s
-
-```{r}
-opt_output_files(las) <- "~/[FilePath]/[Segmented_PointCloud_Name]_{ID}" #this sets up the directory where the R will save the segmented point clouds.
-
-#For example if '[Segmented_PointCloud_Name]_{ID}' is set as 'Shrub_{ID}' and {ID} is the name of the feature in the vector file used that uniquely defines each polygon (e.g. ID = 01), then the output point cloud will be named as 'shrub_01.las'
-
-```
-
-### Segmenting the point cloud (.las file) to the 4-corner vector files (sp format)
-
-```{r}
-clipped_las <- clip_roi(las,SpP) 
-
-#'clip_roi' is the new function that replaced 'lasclip'. If you try to use 'lasclip' function, it will return a message that the fucntion is now defunct and suggests you to use 'clip_roi' function. 
 ```
