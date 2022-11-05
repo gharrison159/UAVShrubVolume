@@ -1,3 +1,14 @@
+################################################################################
+
+### Programmer: Abhinav Shrestha
+### Contact information: abhinavs@uidaho.edu
+
+### Purpose: R-script for clipping point cloud data to shapefile
+
+### Last update: 11/05/2022
+
+################################################################################
+
 library(sp)
 library(sf)
 library(raster)
@@ -8,24 +19,28 @@ library(terra)
 
 ### IMPORTING point cloud as LAS catalog (easier to clip multifeature polygon)
 las <- readLAScatalog("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\FullModel_PC6340\\FullModel_PC6340.las")
-## setting CRS for LAScatalog (Point Cloud data) 
-st_crs(las) <- 4152 #set to NAD83 Z11 (same as shapefile)
+
+las$CRS #to check the CRS of the imported las. Returns 6340 -> EPSG code for NAD83(2011) / UTM zone 11N 
 
 ### Importing shapefile for clipping in spatial 'simple feature' (sf) class
-sf <- st_read(dsn = "C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\shrubs_arc.shp", layer = "shrubs_arc")
-# sf_6340 <- st_transform(sf, st_crs(6340))
-# spdf <- as_Spatial(sf_6340)
-# 
-# writeOGR(obj=spdf, dsn="C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA", layer="shrubs_6340", driver="ESRI Shapefile")
+sf <- st_read(dsn = "C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\DATA\\shrubs_arc.shp", layer = "shrubs_arc") #for this case I imported the shapefile I created in ArcGIS where: 
+                                                                                                                                                          # - I imported the final output shapefile from Georgia's script (in EPSG 4152, geographic) into ArcGIS
+                                                                                                                                                          # - Used the 'export' feature to export the EPSG 4152 geographic shapefile to EPSG 6340 projected shapefile
 
-## sf class has XYZ dimension, 'clip_roi' function only works for 'SpatialPolygons' (sp) class with 2 dimensions.
-## NEED to convert to 2 dimension (XY) 'SpatialPolygon' class
-#sf_rmZ <- st_zm(sf) #removes Z dimension
+sf #returns Dimensions as 'XY' and Projected CRS as NAD83(2011) / UTM zone 11N (same as point cloud on line 12), if sf has Dimensions XYZ, refer to NOT RUN section starting from line 37.
 
-SpP <- as(st_geometry(sf), "Spatial") #converts sf to sp class
 
 ### Set destination file path and filenaming rule (based on 'ID' feature of 'SpP' dataset)
 opt_output_files(las) <- "C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\ClipPC_2_shp_Exports\\shrub_{Shrub_ID}"
 clipped_las <- clip_roi(las,sf)
 
-SpP@proj4string
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### NOT RUN - this section of the script can be used if the imported shapefile has XYZ dimension. This portion of the script removes the Z dimension and converts the sf to Spatial polygons class (SpP)
+### IF NEED TO RUN - just un-comment and re-indent script from lines 23 to 28. 
+
+## sf class has XYZ dimension, 'clip_roi' function only works for 'SpatialPolygons' (sp) class with 2 dimensions.
+
+## NEED to convert to 2 dimension (XY) 'SpatialPolygon' class
+#sf_rmZ <- st_zm(sf) #removes Z dimension
+
+#SpP <- as(st_geometry(sf), "Spatial") #converts sf to sp class
