@@ -15,9 +15,16 @@
 
 
 # load necessary libraries
-library(lidR)
-library(terra)
-library(raster)
+require(lidR)
+require(terra)
+require(raster)
+require(viridisLite)
+require(ForestTools)
+require(sp)
+require(sf)
+require(rLiDAR)
+require(rgdal)
+require(rayshader)
 
 # STEP 1: Load point cloud dataset file 
 
@@ -42,7 +49,11 @@ th <- seq(0.1,1.5,length.out = length(ws))
 ## Set threads for classification: 
 set_lidr_threads(4)
 ## Classify ground
-ground_points <- classify_ground(las, pmf(ws,th)) #this takes very long as a las file, might be better loading as a LASCatalog and performing the classification (better memory and processing efficiency?)
+ground_points <- classify_ground(las, pmf(ws,th)) # this takes very long as a las file, might be better loading as a LASCatalog and performing the classification (better memory and processing efficiency?) UPDATE: took about the same time with LASCatalog file (still long). Issue might be with the algorithm not being parallel-computing friendly (mentioned in the documentation: "In lidR some algorithms are fully computed in parallel, but some are not because they are not parallelizable"). Even using the set_lidr_threads to '4' (max available threads), the classify_ground function only uses 1 thread. 
+
+writeLAS(ground_points, "C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\Clipped_SubsetPC\\ground_Classif.las")
+
+ground_points <- readLAS("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\Clipped_SubsetPC\\ground_Classif.las")
 
 # STEP 3: CREATE DTM WITH GROUND POINTS
 
@@ -67,8 +78,8 @@ plot(hnorm,
 # STEP 5: CREATE CHM 
 
 ## Defining chm function arguments
-cs_chm <- 0.5 # output cellsize of the chm 
-# min cell size seems to be 0.01 since if 0.001 is set "Error: cannot allocate vector of size 1.7 Gb" is returned. But having too fine of a cellsize for chm might cause issues in processing time for automatic shrub detection as it uses a moving local maxima filter --> takes much longer for the kernel to move from pixel to pixel. 
+cs_chm <- 0.2 # output cellsize of the chm 
+# min cell size seems to be 0.01 since if 0.001 is set "Error: cannot allocate vector of size 1.7 Gb" is returned. But having too fine of a cellsize for chm might cause issues in processing time for automatic shrub detection as it uses a moving local maxima filter --> takes much longer for the kernel to move from pixel to pixel. could not set cs_chm to 0.5 (as shown in lidR example) as any number above 0.3 (including) returns "Error in data.table::setnames(where, c("X", "Y")) : Can't assign 2 names to a 1 column data.table" error. Hence, cs_chm set as 0.2.
 
 ## Creating chm
 chm_1 <- grid_canopy(hnorm, cs_chm, p2r(na.fill = knnidw(k=3,p=2))) 
@@ -78,23 +89,75 @@ plot(chm_1,
      main = "grid_canopy method with IDW fill")
 
 ## Exportin CHM 
-writeRaster(chm_1, 'C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\DSM_DTM_CHM_files\\sub_subsetCHM.tif')
+writeRaster(chm_1, 'C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\DSM_DTM_CHM_files\\sub_subsetCHM_point02.tif')
 
 
-#Individual shrub detection and segmentation
+#Individual shrub detection and segmentation using Local Maxima Filter (lmf, lidR) and Variable Window Filter (vwf, ForestTools)
 
-chm_M <- readAll(chm_1) ###function needs to load CHM into memory to process
-ttops <- locate_trees(chm_1,lmf(hmin))
+# Load CHM 
+chm <- raster("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\DSM_DTM_CHM_files\\sub_subsetCHM_point02.tif")
 
-plot(chm_M, col = rev(heat.colors(5)))
-plot(ttops$geometry, add = TRUE, col='black')
+# CHM Smoothing (3x3 kernel, uses mean value)
+schm <- CHMsmoothing(chm, "mean", 3)
+
+par(mfrow = c(1,2))
+plot(chm, 
+     col = height.colors(25))
+plot(schm, 
+     col = height.colors(25))
+par(mfrow = c(1,1))
+
+## ITD using lmf with lidR
+
+ttops_lmf <- locate_trees(schm,lmf(2, hmin = 0, shape = "circular"))
+
+plot(schm, col = height.colors(25), main = "ITD with LMF (lidR)")
+plot(ttops_lmf$geometry, add = TRUE, col='black', pch = 1)
+
+## ITD using vwf with ForestTools
+
+### Set function for determining variable window radius
+winFunction <- function(x){x * 0.04}
+### Set minimum tree height (treetops below this height will not be detected)
+minHgt <- 0.001
+### Detect treetops in demo canopy height model
+ttops_vwf <- vwf(schm, winFunction, minHgt)
+
+plot(chm, col = height.colors(25), main = "ITD with VWF (ForestTools)")
+plot(ttops_vwf, add = TRUE, col='black', pch = 1)
+
+
+## Comparing ITD between lmf (red) and vwf (yellow)
+plot(schm, col = viridis(25), main = "lmf vs vwf")
+plot(ttops_vwf, add = TRUE, col='yellow', pch = 20)
+plot(ttops_lmf$geometry, add = TRUE, col='red', pch = 20)
+
+## ITCD with lidR 
+crowns_silva <- silva2016(schm,ttops_lmf)()
+
+plot(schm, col = viridis(25), main = "Shrub delineation silva2016")
+plot(crowns_silva, add = TRUE, legend = FALSE, col = 'black')
+
+
+## EXTRA - Rayshader: https://www.rayshader.com/ 
+
+elmat = raster_to_matrix(chm)
+
+elmat %>%
+  sphere_shade(sunangle = 45, texture = "imhof3") %>%
+  plot_3d(elmat, zscale = 0.1, fov = -5, theta = 15, zoom = 0.7, phi = 45, windowsize = c(1000, 800))
+
+Sys.sleep(0.2)
+render_snapshot()
+
+
 
 # METHOD 1: POINT TO RASTER 
 
 ## Method explanation: algorithm establishes a user defined grid resolution and attributes the elevation of the highest point within the grid to the pixel. 
 
 chm <- rasterize_canopy(hnorm, res = 1, algorithm = p2r()) # res = user defined resolution of the raster grid size (pixel size), p2r = point to raster algorithm
-col <- height.colors(25)
+col <- viridis::viridis(25)
 plot(chm, 
      col = col, 
      main = "Rasterize canopy method")
