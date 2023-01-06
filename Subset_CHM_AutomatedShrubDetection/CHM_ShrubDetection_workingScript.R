@@ -3,7 +3,7 @@
 ### Programmer: Abhinav Shrestha
 ### Contact information: shre9292@vandals.uidaho.edu
 
-### Purpose: DSM and CHM generation tutorial - lidR package
+### Purpose: DSM and CHM generation from PC and Individual shrub detection/delineation using lidR and ForestTools R packages. 
 
 ### Last update: 01/02/2023
 #############################################################
@@ -74,6 +74,9 @@ plot(hnorm,
      size = 3, 
      bg = "white" 
      )
+
+# Export Normalized point cloud .las file 
+writeLAS(hnorm, "C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\Clipped_SubsetPC\\height_Normalized.las")
 
 # STEP 5: CREATE CHM 
 
@@ -150,33 +153,33 @@ elmat %>%
 Sys.sleep(0.2)
 render_snapshot()
 
-
+## OTHER Different OPTIONS and notes (NOT RUN):
 
 # METHOD 1: POINT TO RASTER 
 
 ## Method explanation: algorithm establishes a user defined grid resolution and attributes the elevation of the highest point within the grid to the pixel. 
 
-chm <- rasterize_canopy(hnorm, res = 1, algorithm = p2r()) # res = user defined resolution of the raster grid size (pixel size), p2r = point to raster algorithm
-col <- viridis::viridis(25)
-plot(chm, 
-     col = col, 
-     main = "Rasterize canopy method")
+# chm <- rasterize_canopy(hnorm, res = 1, algorithm = p2r()) # res = user defined resolution of the raster grid size (pixel size), p2r = point to raster algorithm
+# col <- viridis::viridis(25)
+# plot(chm, 
+#      col = col, 
+#      main = "Rasterize canopy method")
 
 ### Pros: This method is computationally simple and fast.
 ### Cons: May result in empty pixels when grid resolution is too fine for the point density of the .las file (**user defined grid resolution should factor in the point density of the point cloud**). Some cells in the raster might not contain any points, and thus the algorithm will return an NA value. An example of this is shown with the code chunk below: 
 
-chm <- rasterize_canopy(hnorm, res = 0.5, algorithm = p2r()) # res is reduced to 0.5
-plot(chm, 
-     col = col)
+# chm <- rasterize_canopy(hnorm, res = 0.5, algorithm = p2r()) # res is reduced to 0.5
+# plot(chm, 
+#      col = col)
 
 ### One option to reduce the number of 'holes' that return NA values due to the sparsity of the point cloud data set is to replace every point in the point cloud with a disk of a known radius. This disk is meant to simulate the laser footprint of a LiDAR ALS. 
 
-chm <- rasterize_canopy(hnorm, res = 0.5, algorithm = p2r(subcircle = 0.15))
-plot(chm, col = col)
+# chm <- rasterize_canopy(hnorm, res = 0.5, algorithm = p2r(subcircle = 0.15))
+# plot(chm, col = col)
 
 ### Another option is use the na.fill argument within the p2r fuction to interpolate the empty pixels. 
 
-chm <- rasterize_canopy(hnorm, res = 0.5, p2r(0.2, na.fill = knnidw(k=3,p=2))) # uses Triangular Irregular Network (TIN) to fill the holes
-plot(chm, col = col, main = "Rasterize canopy method with IDW fill")
+# chm <- rasterize_canopy(hnorm, res = 0.5, p2r(0.2, na.fill = knnidw(k=3,p=2))) # uses Triangular Irregular Network (TIN) to fill the holes
+# plot(chm, col = col, main = "Rasterize canopy method with IDW fill")
 
 
