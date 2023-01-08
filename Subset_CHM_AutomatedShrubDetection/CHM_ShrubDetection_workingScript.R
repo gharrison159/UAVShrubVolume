@@ -103,39 +103,42 @@ chm <- raster("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\G
 # CHM Smoothing (3x3 kernel, uses mean value)
 schm <- CHMsmoothing(chm, "mean", 3)
 
-par(mfrow = c(1,2))
-plot(chm, 
-     col = height.colors(25))
-plot(schm, 
-     col = height.colors(25))
-par(mfrow = c(1,1))
+## Compare original and smoothed CHM
+#par(mfrow = c(1,2))
+#plot(chm, 
+#     col = height.colors(25))
+#plot(schm, 
+#     col = height.colors(25))
+#par(mfrow = c(1,1))
 
-## ITD using lmf with lidR
+# INDIVIDUAL SHRUB DETECTION (ISD)
 
-ttops_lmf <- locate_trees(schm,lmf(2, hmin = 0, shape = "circular"))
+## ISD using lmf with lidR
+
+ttops_lmf <- locate_trees(schm,lmf(2, hmin = 0, shape = "circular")) #ttops = shrub tops in our case
 
 plot(schm, col = height.colors(25), main = "ITD with LMF (lidR)")
 plot(ttops_lmf$geometry, add = TRUE, col='black', pch = 1)
 
-## ITD using vwf with ForestTools
+## ISD using vwf with ForestTools
 
 ### Set function for determining variable window radius
 winFunction <- function(x){x * 0.04}
 ### Set minimum tree height (treetops below this height will not be detected)
 minHgt <- 0.001
 ### Detect treetops in demo canopy height model
-ttops_vwf <- vwf(schm, winFunction, minHgt)
+ttops_vwf <- vwf(schm, winFunction, minHgt) #ttops = shrub tops in our case
 
 plot(chm, col = height.colors(25), main = "ITD with VWF (ForestTools)")
 plot(ttops_vwf, add = TRUE, col='black', pch = 1)
 
 
-## Comparing ITD between lmf (red) and vwf (yellow)
+## Comparing ISD between lmf (red) and vwf (yellow)
 plot(schm, col = viridis(25), main = "lmf vs vwf")
 plot(ttops_vwf, add = TRUE, col='yellow', pch = 20)
 plot(ttops_lmf$geometry, add = TRUE, col='red', pch = 20)
 
-## ITCD with lidR 
+## Individual Shrub Crown Delineation with lidR (segmenting individual shrubs)
 crowns_silva <- silva2016(schm,ttops_lmf)()
 
 plot(schm, col = viridis(25), main = "Shrub delineation silva2016")
