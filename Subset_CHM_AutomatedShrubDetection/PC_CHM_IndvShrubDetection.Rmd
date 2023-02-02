@@ -8,6 +8,7 @@ output:
 ---
 ```{r setup, include=FALSE}
 options(rgl.useNULL=TRUE)
+options(wgl.useNULL=TRUE)
 ```
 
 # Load necessary libraries
@@ -22,6 +23,7 @@ require(sp)
 require(sf)
 require(rgdal)
 require(rayshader)
+require(webshot2)
 ```
 
 # Creating a Canopy Height Model (CHM) from point cloud 
@@ -153,8 +155,10 @@ chm <- raster("C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\G
 ```{r warning=FALSE, message=FALSE, out.width="100%"}
 plot(las,
      size = 3,
-     bg = "white")
-rgl::rglwidget()
+     bg = "white", 
+     color = "Z", 
+     pal = height.colors(25))
+rgl::rglwidget(snapshot = TRUE)
 ```
 
 ## Ground/non-ground classified point cloud
@@ -164,26 +168,26 @@ plot(ground_points,
      bg = "white", 
      color = "Classification", 
      pal = forest.colors(2))
-rgl::rglwidget()
+rgl::rglwidget(snapshot = TRUE)
 ```
 ## Digital Terrain Model (DTM)
 ```{r warning=FALSE, message=FALSE, out.width="100%"}
 plot_dtm3d(dtm) 
-rgl::rglwidget()
+rgl::rglwidget(snapshot = TRUE)
 ```
 
-## Height normalized point cloud 
+## Height normalized point cloud (point cloud with effect of terrain removed)
 ```{r warning=FALSE, message=FALSE, out.width="100%"}
 plot(hnorm, 
      size = 3, 
      bg = "white")
-rgl::rglwidget()
+rgl::rglwidget(snapshot = TRUE)
 ```
 
 ## Canopy Height Model (CHM)
 ```{r warning=FALSE, message=FALSE, out.width="100%"}
 plot_dtm3d(chm) 
-rgl::rglwidget()
+rgl::rglwidget(snapshot = TRUE)
 ```
 
 
@@ -193,7 +197,8 @@ rgl::rglwidget()
 ```{r warning=FALSE, message=FALSE, out.width="100%"}
 # CHM Smoothing (3x3 kernel, uses mean value)
 library(rLiDAR)
-schm <- CHMsmoothing(chm, "mean", 3)
+schm <- rLiDAR::CHMsmoothing(chm, "mean", 3)
+detach("package:rLiDAR", unload = TRUE)
 ```
 
 ## Plotting original CHM and Smoothed CHM
@@ -258,10 +263,39 @@ plot(shrubtops_lmf$geometry, add = TRUE, col='red', pch = 20)
 ## Individual shrub delineation using **silva2016** algorithm with **lidR**
 
 ```{r warning=FALSE, message=FALSE, out.width="100%"} 
-crowns_silva <- silva2016(schm,shrubtops_lmf)()
+crowns_silva_lmf <- silva2016(schm,shrubtops_lmf)()
+crowns_silva_vwf <- silva2016(schm,shrubtops_vwf)()
 
-plot(schm, col = height.colors(25), main = "Shrub delineation silva2016")
-plot(crowns_silva, add = TRUE, legend = FALSE, col = 'black')
+
+plot(schm, col = height.colors(25), main = "Shrub delineation silva2016 for lmf")
+plot(crowns_silva_lmf, add = TRUE, legend = FALSE, col = 'black')
+
+plot(schm, col = height.colors(25), main = "Shrub delineation silva2016 for vwf")
+plot(crowns_silva_vwf, add = TRUE, legend = FALSE, col = 'black')
+
+
+# converting cell values of raster into 1 (delineated shrub) and 0 (non-shrub) exporting individual shrub delineation rasters
+
+crowns_silva_lmf[!is.na(crowns_silva_lmf[])] <- 1
+crowns_silva_lmf[is.na(crowns_silva_lmf[])] <- 0
+
+crowns_silva_vwf[!is.na(crowns_silva_vwf[])] <- 1
+crowns_silva_vwf[is.na(crowns_silva_vwf[])] <- 0
+
+writeRaster(crowns_silva_lmf, 'C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\IndividualDetectedShrubs\\IndvShrubs_Silva_LMF.tif')
+
+writeRaster(crowns_silva_vwf, 'C:\\Users\\shre9292\\OneDrive - University of Idaho\\Documents\\GitHub\\UAVShrubVolume\\Subset_CHM_AutomatedShrubDetection\\Outputs\\IndividualDetectedShrubs\\IndvShrubs_Silva_VWF.tif')
+
+
+test_raster <- crowns_silva_lmf
+
+test_raster[!is.na(test_raster[])] <- 1
+test_raster[is.na(test_raster[])] <- 0
+
+test_raster@data@values
+
+plot(test_raster)
+
 ```
 
 # References:
