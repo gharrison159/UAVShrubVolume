@@ -263,8 +263,10 @@ plot(shrubtops_lmf$geometry, add = TRUE, col='red', pch = 20)
 ## Individual shrub delineation using **silva2016** algorithm with **lidR**
 
 ```{r warning=FALSE, message=FALSE, out.width="100%"} 
-crowns_silva_lmf <- silva2016(schm,shrubtops_lmf)()
-crowns_silva_vwf <- silva2016(schm,shrubtops_vwf)()
+crowns_silva_lmf <- silva2016(schm,shrubtops_lmf, max_cr_factor = 1.56, exclusion = 0.001)() # max_cr_factor set by average height to d1 ratio from field data
+crowns_silva_vwf <- silva2016(schm,shrubtops_vwf, max_cr_factor = 1.56, exclusion = 0.001)()
+
+# NOTE: usually, trees are taller than they are wide. Hence default max crown diamter is set to 0.6, no larger than 60% of the total height of the tree. HOWEVER, shrubs are wider than they are tall (field data shows avg height = 56.8 cm vs avg width = 88.4 cm) 
 
 
 plot(schm, col = height.colors(25), main = "Shrub delineation silva2016 for lmf")
