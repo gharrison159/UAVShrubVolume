@@ -6,7 +6,8 @@
 
 ![Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud](Figures/VWF_DelineationsISO.bmp)  
 
-<p>*Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud.*</p>
+<p>*Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud.*</p>  
+
 -----------------------------
 **Code developed by:**  
 Abhinav Shrestha  
