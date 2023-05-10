@@ -8,7 +8,7 @@
 * In the .pdf file [`PC_CHM_IndvShrubDetection.pdf`](PC_CHM_IndvShrubDetection.pdf) or in the .rmd file [`PC_CHM_IndvShrubDetection.Rmd`](PC_CHM_IndvShrubDetection.Rmd) in this subdirectory. 
 * The [`PC_CHM_IndvShrubDetection.html`](PC_CHM_IndvShrubDetection.html) is an HTML version of the .pdf file that contains an additional feature where users can interact with the 3D point cloud.**  
 
-![Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud](Figures/VWF_DelineationsISO.bmp)  
+![Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud](Subset_CHM_AutomatedShrubDetection/Figures/VWF_DelineationsISO.bmp)  
 
 <p><em>Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud.</em></p>  
 
