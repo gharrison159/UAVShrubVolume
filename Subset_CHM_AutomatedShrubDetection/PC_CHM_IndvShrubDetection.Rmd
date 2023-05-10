@@ -3,8 +3,8 @@ title: 'Drone Shrub Volume Subset Test: Individual Shrub Detection and Delineati
 author: "Code: Abhinav Shrestha | Project PI: Georgia R. Harrison"
 date: "`r Sys.Date()`"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 toc: TRUE
 ---
 
@@ -341,8 +341,8 @@ writeRaster(crowns_silva_vwf,
 
 ```
 
-
-# Point Cloud based direct segmentation to detect individual shrubs
+\pagebreak
+# Point Cloud segmentation of individual shrubs (without using CHM raster)
 
 ```{r warning=FALSE, eval=FALSE, message=FALSE, out.width="100%"} 
 
@@ -399,7 +399,6 @@ plot(shrub_las_NonGroundOnlyPC,
 rgl::rglwidget()
 
 ```
-\pagebreak
 
 ![*Individual shrubs detected from direct point cloud segmentation*](Figures\\IndivdualShrub_PCSeg.png)
 
@@ -462,7 +461,7 @@ writeRaster(shrubs_raster,
 
 # Interactive 3D model of point cloud segmented individual shrubs
 
-*Scroll around with mouse*
+*Execute code below to create a 3D window and scroll around with mouse*
 
 ``` {r warning=FALSE, eval=FALSE, message=FALSE, out.width="100%"}
 shrub_las_NonGroundOnlyPC <- readLAS("Outputs\\ShrubDelineation\\ShrubSeg_GroundRemoved.las")
