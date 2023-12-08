@@ -13,6 +13,8 @@
 <p><em>Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud.</em></p>  
 
 -----------------------------
+[![DOI](https://zenodo.org/badge/553770123.svg)](https://zenodo.org/doi/10.5281/zenodo.10309158)
+-----------------------------
 **Code developed by:**  
 Abhinav Shrestha  
 Department of Earth and Spatial Sciences  
