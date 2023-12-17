@@ -342,7 +342,26 @@ writeRaster(crowns_silva_vwf,
 ```
 
 \pagebreak
-# Point Cloud segmentation of individual shrubs (without using CHM raster)
+
+### Using CHM-based shrub-top detection to segment point cloud
+
+This can be used as an *alternative* to the methods presented in the [Point Cloud segmentation of individual shrubs (without using CHM raster)](#pcSeg) section. This method segments the point cloud based on the shrub-tops detected with the CHM-based algorithm. The following code uses the shrubs-tops detected by the `Silva2016` algorithm, the same code can be used for other CHM-based methods (e.g., `VWF` method).
+
+```{r warning=FALSE, eval=FALSE, message=FALSE, out.width="100%"} 
+
+# set CHM-based algorithm in an R-object
+algo_lmf <- lidR::silva2016(schm, shrubtops_lmf)
+
+# Segement point cloud
+shrubSegmentedPC_silva2016_lmf <- lidR::segment_trees(hnorm, algo_lmf)
+
+```
+
+The *output* of this algorithm looks similar to the one presented in the next section -- [Figure 11](#pcSegFig).
+
+\pagebreak
+
+# Point Cloud segmentation of individual shrubs (without using CHM raster) {#pcSeg}
 
 ```{r warning=FALSE, eval=FALSE, message=FALSE, out.width="100%"} 
 
@@ -400,7 +419,7 @@ rgl::rglwidget()
 
 ```
 
-![*Individual shrubs detected from direct point cloud segmentation*](Figures\\IndivdualShrub_PCSeg.png)
+![*Individual shrubs detected from direct point cloud segmentation*](Figures\\IndivdualShrub_PCSeg.png){#pcSegFig}
 
 ### Exporting individual shrubs
 ```{r warning=FALSE, eval=FALSE, message=FALSE, out.width="100%"}
@@ -459,20 +478,37 @@ writeRaster(shrubs_raster,
 ```
 ![*Individual shrubs delineated from point cloud segmentation method*](Figures\\PC_indvShrubDelineation.png)
 
+\pagebreak
 # Interactive 3D model of point cloud segmented individual shrubs
 
-*Execute code below to create a 3D window and scroll around with mouse*
+*Execute code below to create a 3D window and scroll around with mouse, **required to export as `.html`** *
 
 ``` {r warning=FALSE, eval=FALSE, message=FALSE, out.width="100%"}
 shrub_las_NonGroundOnlyPC <- readLAS("Outputs\\ShrubDelineation\\ShrubSeg_GroundRemoved.las")
 
-plot(shrub_las_NonGroundOnlyPC, 
+lidR::plot(shrub_las_NonGroundOnlyPC, 
      size = 3, 
      color = 'treeID', 
-     pal = pastel.colors(50), 
+     pal = colorRampPalette(pastel.colors(50)), 
      bg = "white")
-rgl::rglwidget()
+shrub_las_Widget <- rgl::rglwidget()
 
+saveWidget(shrub_las_Widget, "Outputs\\ShrubDelineation\\shrub_las_Widget.html")
+
+```
+
+```{r message=FALSE, warning=FALSE}
+# Define a function to generate HTML code for an rgl widget
+renderRglWidget <- function(file) {
+  htmltools::includeHTML(file)
+}
+
+# Render the rgl widgets using HTML and CSS
+htmltools::tags$div(
+  style = "display: flex; flex-wrap: wrap;",
+  htmltools::tags$div(renderRglWidget("Outputs\\ShrubDelineation\\shrub_las_Widget.html"), 
+                      style="width: 100%;")
+)
 ```
 
 \pagebreak

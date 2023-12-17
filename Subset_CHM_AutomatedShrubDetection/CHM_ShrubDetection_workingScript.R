@@ -1,13 +1,13 @@
 #############################################################
 
 ### Programmer: Abhinav Shrestha
-### Contact information: shre9292@vandals.uidaho.edu
+### Contact information: abhinav.shrestha96@gmail.com
 
 ### Purpose: 
 # - DSM and CHM generation from PC  
 # - Individual shrub detection and delineation from raster (CHM) and point cloud (segmentation)
 
-### Last update: 01/02/2023
+### Last update: 12/04/2023
 #############################################################
 
 # tutorial follow along links: 
@@ -16,9 +16,13 @@
 ##  + Tutorial in supplementary material: https://www.degruyter.com/document/doi/10.1515/geo-2020-0290/downloadAsset/suppl/geo-2020-0290_sm.pdf 
 
 
-# ============================================================
+###########################################################################
 
-# Load libraries 
+# =========================================================================
+
+# IMPORT LIBRARIES
+
+# =========================================================================
 
 require(lidR)
 require(terra)
@@ -32,9 +36,15 @@ require(rgdal)
 # ============================================================
 
 
-# -------------------------------------------------------------
+# =========================================================================
 
-# Data preparation: clipping point cloud (subset)
+#                           CHANGE VARIABLES HERE
+
+# =========================================================================
+
+
+# ------------------------- SET DIR, PATH, FILE ---------------------------
+
 
 pointCloud_toClip <- readLAScatalog("~/PATH/NAME.las")
 
@@ -348,6 +358,20 @@ writeRaster(crowns_silva_vwf,
             'Outputs\\IndividualDetectedShrubs\\IndvShrubs_Silva_VWF.tif')
 
 # -------------------------------------------------------------
+
+
+### Using CHM-based shrub-top detection to segment point cloud
+
+# This can be used as an alternative to the methods presented in the "Point Cloud segmentation of individual shrubs (without using CHM raster)" section (next). 
+# This method segments the point cloud based on the shrub-tops detected with the CHM-based algorithm. 
+# The following code uses the shrubs-tops detected by the `Silva2016` algorithm, the same code can be used for other CHM-based methods (e.g., `VWF` method).
+
+
+# set CHM-based algorithm in an R-object
+algo_lmf <- lidR::silva2016(schm, shrubtops_lmf)
+
+# Segement point cloud
+shrubSegmentedPC_silva2016_lmf <- lidR::segment_trees(hnorm, algo_lmf)
 
 
 
