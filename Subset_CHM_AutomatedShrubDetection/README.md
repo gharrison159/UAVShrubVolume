@@ -1,6 +1,6 @@
 # Automated shrub detection using CHM and point cloud based algorithms
 
-**A detailed outline of the implementation of individual shurb detection algorithms including the generation of CHM raster from point cloud can be found:** 
+**A detailed outline of the implementation of individual shrub detection algorithms including the generation of CHM raster from point cloud can be found:** 
 * In the .pdf file [`PC_CHM_IndvShrubDetection.pdf`](PC_CHM_IndvShrubDetection.pdf) or in the .rmd file [`PC_CHM_IndvShrubDetection.Rmd`](PC_CHM_IndvShrubDetection.Rmd) in this subdirectory. 
 * The [`PC_CHM_IndvShrubDetection.html`](PC_CHM_IndvShrubDetection.html) is an HTML version of the .pdf file that contains an additional feature where users can interact with the 3D point cloud. *Download this html file to use the interactive 3D plot of the point cloud with shrub segmentation.  
 
