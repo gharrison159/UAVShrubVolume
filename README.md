@@ -2,7 +2,7 @@
 
 * This sub-directory contains necessary code and materials for automated individual shrub detection using functions from the `lidR` and `ForestTools` R packages. 
 * The code developed for this aspect of the project is an exploratory approach and thus is only applied to a subset of the study site. 
-* Please refer to the manuscript for details about the project [URL FOR MANUSCRIPT]
+* Please refer to the manuscript for details about the project [https://doi.org/10.1002/ecs2.4877](https://doi.org/10.1002/ecs2.4877)
 
 
 ![Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud](Subset_CHM_AutomatedShrubDetection/Figures/VWF_DelineationsISO.bmp)  
