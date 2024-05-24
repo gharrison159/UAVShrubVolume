@@ -2,7 +2,8 @@
 
 * This sub-directory contains necessary code and materials for automated individual shrub detection using functions from the `lidR` and `ForestTools` R packages. 
 * The code developed for this aspect of the project is an exploratory approach and thus is only applied to a subset of the study site. 
-* Please refer to the manuscript for details about the project [https://doi.org/10.1002/ecs2.4877](https://doi.org/10.1002/ecs2.4877)
+* For more details about the project, please refer our manuscript published in [Ecosphere](https://esajournals.onlinelibrary.wiley.com/journal/21508925):
+  + [![Static Badge](https://img.shields.io/badge/DOI%3A%20-https%3A%2F%2Fdoi.org%2F10.1002%2Fecs2.4877-blue?style=flat)](https://doi.org/10.1002/ecs2.4877)
 
 
 ![Isometric view of Variable Window Filter-based Individual Shrub Delineation (polyline) and Clipped Point Cloud Representing Individual Shrub Point Cloud](Subset_CHM_AutomatedShrubDetection/Figures/VWF_DelineationsISO.bmp)  
@@ -14,8 +15,10 @@
 ----------------------------------------------------------
 ### Code developed by:
 Abhinav Shrestha  
-Department of Earth and Spatial Sciences  
-University of Idaho, Moscow, ID
+Remote Sensing and Geospatial Specialist  
+Federal Contractor  
+[Geospatial Technology and Applications Center (GTAC)](https://www.fs.usda.gov/about-agency/gtac), [USDA Forest Service](https://www.fs.usda.gov/)  
+Salt Lake City, UT
 
 Contact information: 
 * abhinav.shrestha96@gmail.com 
@@ -25,7 +28,8 @@ Contact information:
 <br>
 
 ## Principle Investigator
-Georgia R. Harrison  
-Department of Plant Sciences  
-University of Idaho, Moscow, ID  
-harrisongeorgiar@gmail.com  
+Georgia R. Harrison, PhD  
+Postdoctoral Ecologist  
+[USDA-ARS Jornada Experimental Range](https://jornada.nmsu.edu/)  
+Las Cruces, New Mexico, USA  
+[georgia.harrison@usda.gov](mailto:georgia.harrison@usda.gov)
