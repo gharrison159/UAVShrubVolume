@@ -10,4 +10,4 @@
 ## 05-24-2024
 
 * Added DOI and link to published manuscript to the main repository "README.md"
-* Updated contact information on the main repository "README.md".
+* Updated contact information on the main repository "README.md"
