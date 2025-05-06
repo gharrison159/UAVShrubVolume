@@ -15,10 +15,7 @@
 ----------------------------------------------------------
 ### Code developed by:
 Abhinav Shrestha  
-Remote Sensing and Geospatial Specialist  
-Federal Contractor  
-[Geospatial Technology and Applications Center (GTAC)](https://www.fs.usda.gov/about-agency/gtac), [USDA Forest Service](https://www.fs.usda.gov/)  
-Salt Lake City, UT
+Remote Sensing and Geospatial Specialist
 
 Contact information: 
 * abhinav.shrestha96@gmail.com 
